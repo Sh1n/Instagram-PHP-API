@@ -682,7 +682,7 @@ class Instagram
       $headers = $this->processHeaders($headerContent);
 
       // get the 'X-Ratelimit-Remaining' header value
-      $this->_xRateLimitRemaining = $headers[self::X_RATELIMIT_REMAINING_HEADER_NAME];
+      $this->_xRateLimitRemaining = array_key_exists(self::X_RATELIMIT_REMAINING_HEADER_NAME, $headers) ? $headers[self::X_RATELIMIT_REMAINING_HEADER_NAME] : 0;
 
       if (!$jsonData) {
           throw new InstagramException('Error: _performCurlAndProcessResponse() - cURL error: ' . curl_error($ch));
@@ -993,7 +993,7 @@ class Instagram
 
         $paramString = '&' . http_build_query($params);
 
-        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'POST');
+        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'GET');
     }
 
     public function deleteSubscription($id){
