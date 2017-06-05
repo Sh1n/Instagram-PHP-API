@@ -36,6 +36,8 @@ class Instagram
      */
     const API_SUBSCRIBE_URL = 'https://api.instagram.com/v1/subscriptions/';
 
+    const X_RATELIMIT_REMAINING_HEADER_NAME = 'x-ratelimit-remaining';
+
     /**
      * The Instagram API Key.
      *
@@ -680,7 +682,7 @@ class Instagram
       $headers = $this->processHeaders($headerContent);
 
       // get the 'X-Ratelimit-Remaining' header value
-      $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+      $this->_xRateLimitRemaining = $headers[self::X_RATELIMIT_REMAINING_HEADER_NAME];
 
       if (!$jsonData) {
           throw new InstagramException('Error: _performCurlAndProcessResponse() - cURL error: ' . curl_error($ch));
