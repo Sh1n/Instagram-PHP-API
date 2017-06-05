@@ -993,5 +993,54 @@ class Instagram
 
         return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'POST');
     }
+
+    public function deleteSubscription($id){
+
+        if(!is_numeric($id)){
+            throw new \InvalidArgumentException("SUBSCRIPTION_ID_SHOULD_BE_NUMERIC");
+        }
+
+        $id = (int) $id;
+
+        if(!$id){
+            throw new \InvalidArgumentException("SUBSCRIPTION_ID_SHOULD_BE_DIFFERENT_FROM_ZERO");
+        }
+
+        $params = array(
+            'client_id' => $this->getApiKey(),
+            'client_secret' => $this->getApiSecret(),
+            'id'        =>  $id
+        );
+
+        $paramString = '&' . http_build_query($params);
+
+        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'DELETE');
+    }
+
+    public function deleteAllSubscriptions(){
+
+        $params = array(
+            'client_id' => $this->getApiKey(),
+            'client_secret' => $this->getApiSecret(),
+            'object'        => 'all'
+        );
+
+        $paramString = '&' . http_build_query($params);
+
+        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'DELETE');
+    }
+
+    public function deleteSubscriptionsByType($type){
+
+        $params = array(
+            'client_id' => $this->getApiKey(),
+            'client_secret' => $this->getApiSecret(),
+            'object'        => $type
+        );
+
+        $paramString = '&' . http_build_query($params);
+
+        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'DELETE');
+    }
 }
 
