@@ -982,5 +982,16 @@ class Instagram
       
       return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'POST');
     }
+
+    public function listSubscriptions(){
+        $params = array(
+            'client_id' => $this->getApiKey(),
+            'client_secret' => $this->getApiSecret()
+        );
+
+        $paramString = '&' . http_build_query($params);
+
+        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'POST');
+    }
 }
 
