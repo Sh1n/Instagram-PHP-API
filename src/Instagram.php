@@ -968,32 +968,33 @@ class Instagram
     public function setProxyPort($port){
         $this->_proxyPort = $port;
     }
-    
-    public function subscribeToUpdates($callbackUrl, $verifyToken) {
-      
-      $params = array(
-          'client_id' => $this->getApiKey(),
-          'client_secret' => $this->getApiSecret(),
-          'object' => 'user',
-          'aspect' => 'media',
-          'verify_token' => $verifyToken,
-          'callback_url' => $callbackUrl
-      );
-      
-      $paramString = '&' . http_build_query($params);
-      
-      return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'POST');
-    }
 
-    public function listSubscriptions(){
+
+    public function subscribeToUpdates($callbackUrl, $verifyToken, $object='user', $aspect='media') {
+
         $params = array(
             'client_id' => $this->getApiKey(),
-            'client_secret' => $this->getApiSecret()
+            'client_secret' => $this->getApiSecret(),
+            'object'       => $object,
+            'aspect'       => $aspect,
+            'verify_token' => $verifyToken,
+            'callback_url' => $callbackUrl
         );
 
         $paramString = '&' . http_build_query($params);
 
-        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'GET');
+        return $this->_performCurlAndProcessResponse(self::API_SUBSCRIBE_URL, $params, $paramString, 'POST');
+    }
+
+    public function listSubscriptions(){
+        $params = array(
+            'client_secret' => $this->getApiSecret(),
+            'client_id' => $this->getApiKey()
+        );
+
+        $url         = self::API_SUBSCRIBE_URL . '?' .  http_build_query($params);
+
+        return $this->_performCurlAndProcessResponse($url, [], '');
     }
 
     public function deleteSubscription($id){
